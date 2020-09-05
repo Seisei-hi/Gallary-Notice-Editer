@@ -239,6 +239,7 @@
                         <input id="input-link" type="text">
                         <button onclick="insertLink()">링크 삽입</button>
                         <button onclick="bold()">볼드체</button>
+                        <button onclick="deleteTd()">셀 삭제</button>
                     </div>
                 </div>
             </div>
@@ -486,7 +487,6 @@
         tr[0][3] = "";
         tipData.splice(selectedTrIndex + 1, 0, tr);
 
-
         let tbody = document.getElementsByTagName("tbody")[0];
         tbody.insertBefore(createTr(tipData[selectedTrIndex + 1]), tbody.children[selectedTrIndex + 1]);
     }
@@ -495,7 +495,25 @@
         let tbody = document.getElementsByTagName("tbody")[0];
         tbody.removeChild(tbody.children[selectedTrIndex]);
     }
-
+    function deleteTd(){
+        if (tipData[selectedTrIndex].length <= 1) {
+            alert("마지막 한칸은 삭제 불가");
+            throw 0;
+        }
+        if (selectedTdIndex == 0) {
+            tipData[selectedTrIndex][selectedTdIndex+1][0] = `${tipData[selectedTrIndex][selectedTdIndex+1][0]*1 + tipData[selectedTrIndex][selectedTdIndex][0]*1}`;
+        }
+        else
+        {
+            tipData[selectedTrIndex][selectedTdIndex-1][0] = `${tipData[selectedTrIndex][selectedTdIndex-1][0]*1 + tipData[selectedTrIndex][selectedTdIndex][0]*1}`;
+        }
+        tipData[selectedTrIndex].splice(selectedTdIndex, 1);
+        updateColSpan();
+        document.getElementsByTagName(`tbody`)[0].children[selectedTrIndex].getElementsByClassName("select-button")[0].click();
+        if (selectedTdIndex != 0) {
+            selectedTdIndex--;
+        }
+    }
     function addPlusTdButtons() {
         let plusButtonContainer = document.getElementById(`plus-button-container`);
         let rangeContainer = document.getElementById(`range-container`);
