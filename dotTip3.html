@@ -281,7 +281,7 @@
                 tipData[i][j][1] = td.style.color != "" ? td.style.color : "";
                 tipData[i][j][2] = td.style.backgroundColor != "" ? td.style.backgroundColor : "";
                 if (td.firstElementChild) {
-                    tipData[i][j][3] = td.firstElementChild.innerHTML != "" ? td.firstElementChild.innerHTML.replace(/  /g, "").replace(/target="_blank" /g, "") : "";
+                    tipData[i][j][3] = td.firstElementChild.innerHTML != "" ? td.firstElementChild.innerHTML.replace(/  /g, "").replace(/target="_blank" /g, "").replace(/<a/g, `<a target="_blank"`) : "";
                 }
                 else {
                     tipData[i][j][3] = "";
@@ -599,7 +599,7 @@
     function copyText(text) {
         var textArea = document.createElement("textarea");
         document.body.appendChild(textArea);
-        textArea.value = text;
+        textArea.value = text.replace(/target="_blank" /g, "");
         textArea.select();
         document.execCommand('copy');
         document.body.removeChild(textArea);
